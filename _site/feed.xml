@@ -45,7 +45,7 @@ src=&quot;/siney/img/siney_motion.gif&quot; class=&quot;figure&quot;&gt;&lt;/a&g
 
 &lt;p&gt;It&amp;#39;s clear that we require extremely precise and repeatable control, something that from my experience is best achieved using stepper motors.  However, stepper motors are known for being extremely loud in their own unique way, producing an odd tonal buzz likely familiar to anyone who had to endure dot matrix printers.&lt;/p&gt;
 
-&lt;iframe width=&quot;100%&quot; height=&quot;300px&quot; src=&quot;https://www.youtube.com/embed/YLpf4ZZPJYY&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;iframe width=&quot;100%&quot; height=&quot;300px&quot; src=&quot;https://www.youtube.com/embed/YLpf4ZZPJYY&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;Of course, this type of behavior is not ideal for my kinetic sculpture, which I would rather be seen not heard.  Furthermore, yet another problem with stepper motors is that they are by nature discrete.  Rather than setting their continuous speed, you send a pulse to direct the shaft forward one step (typically around one degree).  For the sculpture, I would much prefer a smooth continuous motion.  Through software trickery people have sent pulses at intervals smaller than one degree, but the problem still persists.  Interestingly enough, it is this behavior of rapid sending of pulses that generates the characteristic stepper motor noise.&lt;/p&gt;
 
