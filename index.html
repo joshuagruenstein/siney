@@ -1,0 +1,19 @@
+---
+layout: default
+title: Siney Blog
+sitemap:
+  priority: 0.9
+  changefreq: daily
+---
+
+<div class="about-blurb">
+  <h1>Siney Build Blog</h1>
+  <p>In the following two or so months, I will make a sincere effort to build a kinetic sculpture, currently titled "Siney."  Below is documentation of my progress thus far.</p>
+</div>
+
+<hr>
+<ul class="posts">
+  {% for post in site.posts limit:5 %}
+    <li><a href="{{ post.url }}">{{ post.title }}</a><span class="posts__date">{{ post.date | date_to_string }}</span></li>
+  {% endfor %}
+</ul>

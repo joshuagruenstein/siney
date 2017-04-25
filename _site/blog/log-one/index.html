@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Conceptual Design and Mathematics</title>
+    
+    <meta name="description" content="A blog on my attempt to build something pretty.">
+    
+    <meta name="author" content="Joshua Gruenstein">
+    <link href="/blog/log-one/" rel="canonical">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fluidbox/1.3.1/jquery.fluidbox.css">
+    <link rel="stylesheet" href="/siney/assets/application-9884be0a4e0e433a81e4b80dc1d36b65.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fluidbox/1.3.1/jquery.fluidbox.min.js"></script>
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+  </head>
+
+  <body>
+  <header class="site-header" role="banner">
+      <div class="container">
+
+        <nav role="navigiation">
+          <ul class="site-nav">
+            <li><a href="/">Me</a>
+            <li><a href="/siney/blog/">Blog</a>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    
+
+    <div class="site-content">
+      <div class="container">
+        <h1 class="post-title">Conceptual Design and Mathematics</h1>
+<p class="post-meta">24 Apr 2017</p>
+
+<div class="post">
+<p>In this post I&#39;ll talk about my progress working through some of the basic design questions that Siney seems to ask.  I expected the project to be challenging from an aesthetic perspective, but I was surprised by the technical challenges which became apparent after further thought.  This makes me happy, as technical challenges are fun.</p>
+
+<h2>Basic Kinematics</h2>
+
+<p>The initial concept for the device was a pen rotating around a circle, with a paper conveyer belt behind it.  I imagined that if the pen and conveyer both rotated at reasonable fixed rates, this would plot out a sin wave.  I was wrong.  This is quickly verifiable if we express the motion of the pen with respect to the page as a parametric equation in terms of time $t$:</p>
+
+<p>$$x_\text{pen} = t + \cos(t)$$
+$$y_\text{pen} = \sin(t),$$</p>
+
+<p>as the desired equation should really be
+$$x_\text{pen} = t$$
+$$y_\text{pen} = \sin(t).$$</p>
+
+<p>After seeing the difference between these two equations, it&#39;s intuitive that the parametric equation for the position of the paper over time should be as follows:</p>
+
+<p>$$x_\text{paper} = t - \cos(t).$$</p>
+
+<p>A more intuitive explanation would be to view the erroneous motion as a cycloid, as in the following animation:</p>
+
+<p><a href="/siney/img/cycloid_motion.gif" data-fluidbox><img
+src="/siney/img/cycloid_motion.gif" class="figure"></a></p>
+
+<p>While the correct motion looks funkier, but gets the job done:</p>
+
+<p><a href="/siney/img/siney_motion.gif" data-fluidbox><img
+src="/siney/img/siney_motion.gif" class="figure"></a></p>
+
+<p>Taking a step back from the math, it&#39;s important to note that in both of these examples the pen is turning on the circle at a fixed rate.  However, in order to achieve the motion we want, we will have to be able to accurately modulate the speed of the conveyer in a non-intuitive way.  This has implications not only for the final appearance of the device, but for the technical infrastructure that constructs it.</p>
+
+<h2>Robot Bits</h2>
+
+<p>Before we begin a rough mechanical layout of the device, we need to know the motors and electronics to build around.  Fortunately, the constraints of this project drastically limits our options in this regard, allowing us to proceed to more interesting components.</p>
+
+<p>Theoretically, the weird periodic motion of the paper could be generated either in software or hardware.  I imagine there is some sort of über-complex mechanical linkage that could generate the required action, but my gut tells me that the time to design and implement such a system would be infeasible.  Performing this task in software is significantly easier, although does come with its own basket of issues.</p>
+
+<p>It&#39;s clear that we require extremely precise and repeatable control, something that from my experience is best achieved using stepper motors.  However, stepper motors are known for being extremely loud in their own unique way, producing an odd tonal buzz likely familiar to anyone who had to endure dot matrix printers.</p>
+
+<iframe width="100%" height="300px" src="https://www.youtube.com/embed/YLpf4ZZPJYY" frameborder="0" allowfullscreen></iframe>
+
+<p>Of course, this type of behavior is not ideal for my kinetic sculpture, which I would rather be seen not heard.  Furthermore, yet another problem with stepper motors is that they are by nature discrete.  Rather than setting their continuous speed, you send a pulse to direct the shaft forward one step (typically around one degree).  For the sculpture, I would much prefer a smooth continuous motion.  Through software trickery people have sent pulses at intervals smaller than one degree, but the problem still persists.  Interestingly enough, it is this behavior of rapid sending of pulses that generates the characteristic stepper motor noise.</p>
+
+<p>Fortunately, I found a solution to both these problems in the Trinamic TMC2100 stepper driver, an experimental chip that effectively smooths out pulses sent to stepper motors, thus eliminating both noise and jerkiness.   However, in exchange the Trinamic driver reduces available torque, so I will have to be sure to size my stepper motors larger than I might&#39;ve with a more traditional control system.</p>
+
+<h2>Rough CAD</h2>
+
+<p>stuff</p>
+
+<h2>Conclusion</h2>
+
+<p>link to gist</p>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        &copy; Joshua Gruenstein 2017.
+      </div>
+    </footer>
+
+    <script>
+    $(function() {
+        $('a[data-fluidbox]').fluidbox();
+    });
+    </script>
+  </body>
+</html>
