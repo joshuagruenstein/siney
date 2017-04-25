@@ -1,7 +1,6 @@
 ---
 layout: post
-title: "Conceptual Design and Mathematics"
-#hero: //i.imgur.com/2ZGUdCW.jpg
+title: "Building Blocks"
 ---
 
 In this post I'll talk about my progress working through some of the basic design questions that Siney seems to ask.  I expected the project to be challenging from an aesthetic perspective, but I was surprised by the technical challenges which became apparent after further thought.  This makes me happy, as technical challenges are fun.
@@ -50,11 +49,8 @@ Of course, this type of behavior is not ideal for my kinetic sculpture, which I 
 
 Fortunately, I found a solution to both these problems in the Trinamic TMC2100 stepper driver, an experimental chip that effectively smooths out pulses sent to stepper motors, thus eliminating both noise and jerkiness.   However, in exchange the Trinamic driver reduces available torque, so I will have to be sure to size my stepper motors larger than I might've with a more traditional control system.
 
-## Rough CAD
-
-stuff
-
 ## Conclusion
 
+Now that I know the type of electronics and motors to build around, I'm ready to begin a rough CAD model of the sculpture to block out the basic structure.  The Mathematica used to generate the nice parametric animations can be found below.
 
-link to gist
+<script src="https://gist.github.com/joshuagruenstein/82761de298a148da908bbad4c2c0a90d.js"></script>
