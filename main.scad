@@ -2,8 +2,8 @@ $fn = 100;
 
 dist = 18;
 
-roller_rad = 1.25;
-flange_rad = 1.5;
+roller_rad = 0.75;
+flange_rad = 1;
 
 roller_height = 11;
 flange_height = 0.25;
@@ -62,32 +62,51 @@ module supportPlate() {
 module frontPlate() {
     // add lightening structure (possibly hexagony stuff)
 
-    square([front_width,roller_height+0.625]);
+    rad = 0.765;
+    w = 1/8;
+    
+        x = 8;
+    y = 8;
+
+    square([front_width,0.5]);
+    translate([0,roller_height+0.625-0.5]) square([front_width,0.5]);
+
+    translate([0,0.5]) difference() {
+        square([front_width,roller_height+0.625-1]);
+
+
+        translate([-0.24,0.07]) for (a=[0:x/2+1], b=[0:y], c=[0:1/2:1/2])
+			translate([(a+c)*3*rad-w/2, (b+c)*sqrt(3)*rad-w/2])
+			circle(r=rad-w,$fn=6);
+    }
 }
 
 module wheel() {
     circle(r=wheel_rad);
 }
 
-translate([0,0,0.25+1/16]) roller();
-translate([dist,0,0.25+1/16]) roller();
+module render() {
+    translate([0,0,0.25+1/16]) roller();
+    translate([dist,0,0.25+1/16]) roller();
 
-translate([dist/2,-0.25-front_out-flange_rad,(roller_height+0.625)/2]) rotate(180) wheelMotor();
-translate([0,0,roller_height+0.625]) paperMotor();
+    translate([dist/2,-0.25-front_out-flange_rad,(roller_height+0.625)/2]) rotate(180) wheelMotor();
+    translate([0,0,roller_height+0.625]) paperMotor();
 
-translate([-flange_rad-0.5,flange_rad+0.5]) rotate([90,0,0]) color([1,0,0]) linear_extrude(0.25) backPlate();
+    translate([-flange_rad-0.5,flange_rad+0.5]) rotate([90,0,0]) color([1,0,0]) linear_extrude(0.25) backPlate();
 
-translate([dist+flange_rad+0.5,flange_rad+0.5,0]) color([0,1,0]) linear_extrude(0.25) rotate(180) bottomPlate();
+    translate([dist+flange_rad+0.5,flange_rad+0.5,0]) color([0,1,0]) linear_extrude(0.25) rotate(180) bottomPlate();
 
-translate([dist+flange_rad+0.5,flange_rad+0.5,roller_height+0.625-0.25]) color([0,0,1]) linear_extrude(0.25) rotate(180) topPlate();
+    translate([dist+flange_rad+0.5,flange_rad+0.5,roller_height+0.625-0.25]) color([0,0,1]) linear_extrude(0.25) rotate(180) topPlate();
 
-translate([-flange_rad-0.25,flange_rad+0.5]) rotate([90,0,-90]) linear_extrude(0.25) sidePlate();
+    translate([-flange_rad-0.25,flange_rad+0.5]) rotate([90,0,-90]) linear_extrude(0.25) sidePlate();
 
-translate([dist+flange_rad+0.5,flange_rad+0.5]) rotate([90,0,-90]) linear_extrude(0.25) sidePlate();
+    translate([dist+flange_rad+0.5,flange_rad+0.5]) rotate([90,0,-90]) linear_extrude(0.25) sidePlate();
 
-translate([dist/2-(dist-2*flange_rad-0.5)/2,-roller_rad+0.25-support_pressure]) rotate([90,0,0]) color([0,1,1]) linear_extrude(0.25) supportPlate();
+    translate([dist/2-(dist-2*flange_rad-0.5)/2,-roller_rad+0.25-support_pressure]) rotate([90,0,0]) color([0,1,1]) linear_extrude(0.25) supportPlate();
 
-translate([dist/2,0.5-front_out-flange_rad,(roller_height+0.625)/2]) rotate([90,0,0]) color([0.5,1,0.5]) linear_extrude(0.25) wheel();
+    translate([dist/2,0.5-front_out-flange_rad,(roller_height+0.625)/2]) rotate([90,0,0]) color([0.5,1,0.5]) linear_extrude(0.25) wheel();
 
-translate([dist/2-front_width/2,-front_out-flange_rad]) rotate([90,0,0]) color([1,0,1,0.3]) linear_extrude(0.25) frontPlate();
+    translate([dist/2-front_width/2,-front_out-flange_rad]) rotate([90,0,0]) color([1,0,1,0.3]) linear_extrude(0.25) frontPlate();
+}
 
+render();
