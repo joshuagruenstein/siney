@@ -37,12 +37,24 @@ module backPlate() {
 }
 
 module bottomPlate() {
-    square([dist+2*flange_rad+1,2*flange_rad+0.75]);
+    difference() {
+        square([dist+2*flange_rad+1,2*flange_rad+0.75]);
+        for (i=[0:1:5]) {
+            translate([0,i]) square([0.25,0.5]);
+            translate([dist+2*flange_rad+0.75,i]) square([0.25,0.5]);
+        }
+        
+        for (i=[0:2:30]) {
+            translate([0.5+i,0]) square([1,0.25]);
+        }
+    }
     
     b1 = dist-2*flange_rad-0.5;
     translate([(dist+2*flange_rad+1-b1)/2,2*flange_rad+0.75]) polygon(points = [
         [0,0],[b1,0],[(b1+front_width)/2,front_out],[(b1-front_width)/2,front_out]
     ]);
+    
+    
 }
 
 module topPlate() {
@@ -109,4 +121,6 @@ module render() {
     translate([dist/2-front_width/2,-front_out-flange_rad]) rotate([90,0,0]) color([1,0,1,0.3]) linear_extrude(0.25) frontPlate();
 }
 
-render();
+//render();
+
+topPlate();
