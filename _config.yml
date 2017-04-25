@@ -1,5 +1,5 @@
 description: A blog on my attempt to build something pretty.
 markdown: kramdown
-pygments: true
+highlighter: rouge
 permalink: /blog/:title/
 baseurl: /siney
