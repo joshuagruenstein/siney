@@ -16,11 +16,11 @@ front_out = 1;
 wheel_rad = 4;
 
 module wheelMotor() {
-    color([0.4,0.4,0.4]) translate([-1,0,-1]) cube([2,0.5,2]);
+    color([0.4,0.4,0.4]) translate([0,0.4566929/2,0]) cube([1.665354,0.4566929,1.665354],center=true); 
 }
 
 module paperMotor() {
-    color([0.4,0.4,0.4]) translate([-1,-1,0]) cube([2,2,0.5]);
+    color([0.4,0.4,0.4]) translate([0,0,0.75]) cube([1.665354,1.665354,1.49606],center=true); 
 }
 
 module roller() {
@@ -64,6 +64,10 @@ module bottomPlate() {
         }
         
         for (i=[3:1.5:17]) translate([i+0.375,2*roller_rad+0.5+support_pressure]) square([0.75,0.25]);
+            
+        translate([dist+flange_rad+0.5,flange_rad+0.5,0]) circle(r=0.125);
+        translate([flange_rad+0.5,flange_rad+0.5,0]) circle(r=0.125);
+
 
     }
     
@@ -82,8 +86,19 @@ module bottomPlate() {
     
 }
 
+module stepperMount() {
+    boltRad = 0.11811/2;
+    
+    circle(r=0.8858268/2);
+    for (i=[45:90:315]) rotate(i) translate([0.863,0]) circle(r=boltRad);
+}
+
 module topPlate() {
-    bottomPlate();
+    difference() {
+        bottomPlate();
+        
+        translate([dist+flange_rad+0.5,flange_rad+0.5,0]) stepperMount();
+    }
 }
 
 module sidePlate() {
@@ -127,21 +142,35 @@ module frontPlate() {
         square([front_width,0.5]);
         for (i = [0:1:20]) translate([i+0.25,0]) square([0.5,0.25]);
     }
-    translate([0,roller_height+0.625-0.5]) difference() {
+    translate([0,roller_height+0.625-0.5001]) difference() {
         square([front_width,0.5]);
         for (i = [0:1:20]) {
             translate([i+0.25,0.25]) square([0.5,0.25]);
         }
     }
 
-    translate([0,0.5]) difference() {
+    difference() {
+    union() { translate([0,0.5]) difference() {
         square([front_width,roller_height+0.625-1]);
+
+
 
 
         translate([-0.24,0.07]) for (a=[0:x/2+1], b=[0:y], c=[0:1/2:1/2])
 			translate([(a+c)*3*rad-w/2, (b+c)*sqrt(3)*rad-w/2])
 			circle(r=rad-w,$fn=6);
     }
+
+            translate([front_width/2,(roller_height+0.625)/2]) hull() {
+                for (i=[45:90:315]) rotate(i) translate([0.75,0]) circle(r=0.25);
+            }
+    }
+    
+    translate([front_width/2,(roller_height+0.625)/2]) stepperMount();
+
+
+    }
+    
 }
 
 module wheel() {
@@ -172,6 +201,28 @@ module render() {
     translate([dist/2-front_width/2,-front_out-flange_rad]) rotate([90,0,0]) color([1,0,1,0.3]) linear_extrude(0.25) frontPlate();
 }
 
-render();
+//render();
 
-//supportPlate();
+module layoutOne() {
+    translate([0.125,0.125]) frontPlate();
+    //translate([16.25,4.125]) wheel();
+}
+
+module layoutTwo() {
+    translate([0.125,0.125]) topPlate();
+    translate([0.125,4]) bottomPlate();
+    
+    translate([11.75,8]) rotate(90) sidePlate();
+    translate([23.75,8]) rotate(90) sidePlate();
+
+}
+
+module layoutThree() {
+    translate([0.125,0.125]) supportPlate();
+}
+
+module layoutFour() {
+    translate([0.125,0.125]) backPlate();
+}
+
+render();
